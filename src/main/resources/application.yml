@@ -1,0 +1,20 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: notifications
+          uri: lb://NOTIFICATIONS-SERVICE
+          filters:
+            - StripPrefix=1
+          predicates:
+            - Path=/notifications/**
+  application:
+    name: gateway-service
+server:
+  port: 9999
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:{random.value}
+  client:
+    service-url:
+      defaultURL: http://localhost:8761/eureka/
